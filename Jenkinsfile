@@ -131,12 +131,19 @@ pipeline {
             compressLog: true                    
         }
         success {
-            sh "echo ${env.CHANGE_AUTHOR_EMAIL}"
-            emailext recipientProviders: ["${env.CHANGE_AUTHOR_EMAIL}"],
-            subject: 'build success!',
-            body: 'good job!',
-            attachLog: true,  
-            compressLog: true            
+            script {
+                def payload = env.GITHUB_WEBHOOK_PAYLOAD
+                def json = readJSON text: payload
+                echo "Received payload: ${json}"
+
+                echo "${json.committer.email}"
+
+                emailext recipientProviders: ["${json.committer.email}"],
+                subject: 'build success!',
+                body: 'good job!',
+                attachLog: true,  
+                compressLog: true    
+            }            
         }
     }
 }
