@@ -16,9 +16,10 @@ pipeline {
     }
 
     stages {
-        stage ("test") {
+        stage ("clean & clone") {
             steps{
-                sh "echo 'hello'"
+                deleteDir()
+                checkout scm
             }           
         }
     }
