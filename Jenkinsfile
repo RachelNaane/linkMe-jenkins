@@ -131,7 +131,7 @@ pipeline {
             compressLog: true                    
         }
         success {
-            emailext recipientProviders: [culprits()],
+            emailext recipientProviders: ["${env.CHANGE_AUTHOR_EMAIL}"],
             subject: 'build success!',
             body: 'good job!',
             attachLog: true,  
