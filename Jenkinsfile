@@ -118,11 +118,11 @@ pipeline {
     }
 
     post {
-        always {
-            sh "docker image rm app || echo 'no image found'"
-            sh "docker image rm 644435390668.dkr.ecr.eu-west-2.amazonaws.com/rachel-naane-linkme:${env.NEXT_VERSION} || echo 'no image found'"
-            sh "docker image rm app_main-nginx || echo 'no image found'"    
-        }
+        // always {
+        //     sh "docker image rm app || echo 'no image found'"
+        //     sh "docker image rm 644435390668.dkr.ecr.eu-west-2.amazonaws.com/rachel-naane-linkme:${env.NEXT_VERSION} || echo 'no image found'"
+        //     sh "docker image rm app_main-nginx || echo 'no image found'"    
+        // }
         failure {
             emailext recipientProviders: [culprits()],
             subject: 'build failure',
@@ -133,16 +133,18 @@ pipeline {
         success {
             script {
                 def payload = env.GITHUB_WEBHOOK_PAYLOAD
-                def json = readJSON text: payload
-                echo "Received payload: ${json}"
+                echo {env.GITHUB_WEBHOOK_PAYLOAD}
+                echo ${payload}
+                // def json = readJSON text: payload
+                // echo "Received payload: ${json}"
 
-                echo "${json.committer.email}"
+                // echo "${json.committer.email}"
 
-                emailext recipientProviders: ["${json.committer.email}"],
-                subject: 'build success!',
-                body: 'good job!',
-                attachLog: true,  
-                compressLog: true    
+                // emailext recipientProviders: ["${json.committer.email}"],
+                // subject: 'build success!',
+                // body: 'good job!',
+                // attachLog: true,  
+                // compressLog: true    
             }            
         }
     }
