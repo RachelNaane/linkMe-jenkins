@@ -133,7 +133,8 @@ pipeline {
         success {
             script {
                 sh 'printenv'
-                emailext recipientProviders: ["${env.GIT_COMMITTER_EMAIL}"],
+                // email=${env.GIT_COMMITTER_EMAIL}
+                emailext recipientProviders: [culprits()],
                 subject: 'build success!',
                 body: 'good job!',
                 attachLog: true,  
