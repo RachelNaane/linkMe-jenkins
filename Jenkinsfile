@@ -19,7 +19,7 @@ pipeline {
         stage ("clean & clone") {
             steps{
                 deleteDir()
-                checkout scm
+                // checkout scm
             }           
         }
 
@@ -132,14 +132,7 @@ pipeline {
         }
         success {
             script {
-                // def payload = env.GITHUB_WEBHOOK_PAYLOAD
-                // echo {env.GITHUB_WEBHOOK_PAYLOAD}
-                // echo ${payload}
-                // // def json = readJSON text: payload
-                // // echo "Received payload: ${json}"
-
-                // // echo "${json.committer.email}"
-
+                sh 'printenv'
                 emailext recipientProviders: [culprits()],
                 subject: 'build success!',
                 body: 'good job!',
