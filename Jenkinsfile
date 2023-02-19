@@ -15,6 +15,20 @@ pipeline {
         GITOPS_REPO_URL = "https://github.com/RachelNaane/linkMe-gitops.git"
     }
 
+    triggers {
+            GenericTrigger(
+                causeString: 'push to branch', 
+                token: 'linkMe', 
+                tokenCredentialId: '',
+                printPostContent: true,
+                printContributedVariables: true,
+                genericVariables: [],
+                regexpFilterText: "",
+                regexpFilterExpression: ""
+            ) 
+        pollSCM 'H * * * *'
+    } 
+
     stages {
         stage ("clean & clone") {
             steps{
@@ -132,19 +146,19 @@ pipeline {
         }
         success {
             script {
-                def payload = env.GITHUB_WEBHOOK_PAYLOAD
-                echo {env.GITHUB_WEBHOOK_PAYLOAD}
-                echo ${payload}
-                // def json = readJSON text: payload
-                // echo "Received payload: ${json}"
+                // def payload = env.GITHUB_WEBHOOK_PAYLOAD
+                // echo {env.GITHUB_WEBHOOK_PAYLOAD}
+                // echo ${payload}
+                // // def json = readJSON text: payload
+                // // echo "Received payload: ${json}"
 
-                // echo "${json.committer.email}"
+                // // echo "${json.committer.email}"
 
-                // emailext recipientProviders: ["${json.committer.email}"],
-                // subject: 'build success!',
-                // body: 'good job!',
-                // attachLog: true,  
-                // compressLog: true    
+                emailext recipientProviders: [culprits()],
+                subject: 'build success!',
+                body: 'good job!',
+                attachLog: true,  
+                compressLog: true    
             }            
         }
     }
