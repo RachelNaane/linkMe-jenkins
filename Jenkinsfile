@@ -15,20 +15,6 @@ pipeline {
         GITOPS_REPO_URL = "https://github.com/RachelNaane/linkMe-gitops.git"
     }
 
-    triggers {
-            GenericTrigger(
-                causeString: 'push to branch', 
-                token: 'linkMe', 
-                tokenCredentialId: '',
-                printPostContent: true,
-                printContributedVariables: true,
-                genericVariables: [],
-                regexpFilterText: "",
-                regexpFilterExpression: ""
-            ) 
-        pollSCM 'H * * * *'
-    } 
-
     stages {
         stage ("clean & clone") {
             steps{
