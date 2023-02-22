@@ -1,0 +1,39 @@
+services:
+  jenkins:
+    build: .
+    ports:
+      - 8080:8080
+      - 5000:5000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins_home:/var/jenkins_home
+
+  # gitlab:
+  #   image: gitlab/gitlab-ee:15.7.0-ee.0
+  #   hostname: 'gitlab.rachel-bootcamp.com'
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #     - "23:22" 
+  #   volumes:
+  #     - gitlab_data:/var/opt/gitlab
+  #     - gitlab_home:/var/log/gitlab
+  #     - gitlab_config:/etc/gitlab
+  #   shm_size: "256m"
+
+  # artifactory:
+  #   image: docker.bintray.io/jfrog/artifactory-oss:latest
+  #   ports: 
+  #     - "8081:8081"
+  #     - "8082:8082"
+  #   environment:
+  #     EXTRA_JAVA_OPTIONS: -Xms512m -Xmx2g -Xss256k -XX:+UseG1GC
+  #   volumes:
+  #     - artifactory_data:/var/opt/jfrog/artifactory
+
+volumes:
+  jenkins_home:
+  # gitlab_data:
+  # gitlab_home:
+  # gitlab_config:
+  # artifactory_data:
